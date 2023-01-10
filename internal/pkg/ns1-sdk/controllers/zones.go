@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -23,5 +24,8 @@ func GetAllZonesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(&zones)
+	e := json.NewEncoder(w).Encode(&zones)
+	if e != nil {
+		log.Panic("Error while encoding response")
+	}
 }

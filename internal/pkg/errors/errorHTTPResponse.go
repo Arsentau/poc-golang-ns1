@@ -2,6 +2,7 @@ package errors
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -17,6 +18,9 @@ func ErrorHTTPResponse(w http.ResponseWriter, err string, code int) http.Respons
 		Code:    code,
 		Message: err,
 	}
-	json.NewEncoder(w).Encode(message)
+	e := json.NewEncoder(w).Encode(message)
+	if e != nil {
+		log.Panic("Error while encoding response")
+	}
 	return w
 }
