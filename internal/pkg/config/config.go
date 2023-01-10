@@ -13,21 +13,21 @@ type Config struct {
 	Timeout   int    `mapstructure:"TIMEOUT_SECONDS"`
 }
 
-var SDKConfig Config
+var config Config
 
 func GetConfig() *Config {
-	if SDKConfig != (Config{}) {
-		return &SDKConfig
+	if config != (Config{}) {
+		return &config
 	}
 
 	viper.SetConfigFile(".env")
 	viper.ReadInConfig()
-	err := viper.Unmarshal(&SDKConfig)
+	err := viper.Unmarshal(&config)
 	if err != nil {
 		log.Fatalf("unable to decode into struct, %v", err)
 	}
-	if (Config{}) == SDKConfig {
+	if (Config{}) == config {
 		panic("No .env file provided")
 	}
-	return &SDKConfig
+	return &config
 }

@@ -1,7 +1,6 @@
 package sdk
 
 import (
-	"log"
 	"net/http"
 	"time"
 
@@ -20,9 +19,5 @@ func getHTTPClient() *api.Client {
 
 func GetZones() ([]*dns.Zone, error) {
 	zones, _, err := getHTTPClient().Zones.List()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	return zones, err
 }
