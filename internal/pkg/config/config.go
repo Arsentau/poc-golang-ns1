@@ -1,3 +1,4 @@
+// package config is responsible to handle the configuration processes
 package config
 
 import (
@@ -13,8 +14,10 @@ type Config struct {
 	Timeout   int    `mapstructure:"TIMEOUT_SECONDS"`
 }
 
+// Initialize private config var
 var config Config
 
+// GetConfig checks if config was set, if so, returns config, otherwise use viper to set its values
 func GetConfig() *Config {
 	if config != (Config{}) {
 		return &config

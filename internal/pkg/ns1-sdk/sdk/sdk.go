@@ -1,3 +1,4 @@
+// package sdk is responsible of the implementation of NS1 SDK
 package sdk
 
 import (
@@ -11,12 +12,14 @@ import (
 
 var config = c.GetConfig()
 
+// getHTTPClient initializes the NS1 client
 func getHTTPClient() *api.Client {
 	httpClient := &http.Client{Timeout: time.Duration(config.Timeout) * time.Second}
 	client := api.NewClient(httpClient, api.SetAPIKey(config.Ns1ApiKey))
 	return client
 }
 
+// GetZones retrieves all zones or error
 func GetZones() ([]*dns.Zone, error) {
 	zones, _, err := getHTTPClient().Zones.List()
 	return zones, err

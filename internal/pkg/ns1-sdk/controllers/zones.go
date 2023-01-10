@@ -1,3 +1,4 @@
+// package controllers is responsible of handle requests, response and error response
 package controllers
 
 import (
@@ -7,10 +8,11 @@ import (
 	"strconv"
 	"strings"
 
-	e "github.com/poc-golang-ns1/internal/pkg/errors"
 	"github.com/poc-golang-ns1/internal/pkg/ns1-sdk/sdk"
+	e "github.com/poc-golang-ns1/pkg/errors"
 )
 
+// GetAllZonesHandler gets the zones using SDK implementation, if fails sends a custom HTTP error
 func GetAllZonesHandler(w http.ResponseWriter, r *http.Request) {
 	zones, err := sdk.GetZones()
 
