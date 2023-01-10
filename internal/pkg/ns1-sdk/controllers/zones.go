@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -13,6 +12,7 @@ import (
 
 func GetAllZonesHandler(w http.ResponseWriter, r *http.Request) {
 	zones, err := sdk.GetZones()
+
 	if err != nil {
 		message := strings.Fields(err.Error())
 		code, err := strconv.Atoi(message[2])
@@ -23,6 +23,5 @@ func GetAllZonesHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-type", "application/json")
-	fmt.Println(err)
 	json.NewEncoder(w).Encode(&zones)
 }
