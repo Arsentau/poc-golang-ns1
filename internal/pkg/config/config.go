@@ -24,7 +24,7 @@ func GetConfig() *Config {
 	viper.ReadInConfig()
 	err := viper.Unmarshal(&config)
 	if err != nil {
-		log.Fatalf("unable to decode into struct, %v", err)
+		log.Fatalf("Unable to decode into struct, %v", err)
 	}
 	if (Config{}) == config {
 		panic("No .env file provided")
