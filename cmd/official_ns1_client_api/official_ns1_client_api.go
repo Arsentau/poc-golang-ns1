@@ -2,8 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
+	c "github.com/poc-golang-ns1/internal/pkg/config"
+	"github.com/poc-golang-ns1/internal/pkg/ns1-sdk/router"
 )
 
 func main() {
-	fmt.Println("Hello Official API")
+	r := router.GetRouter()
+	port := c.GetConfig().Port
+	fmt.Println("Initializing server on " + port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
