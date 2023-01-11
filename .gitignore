@@ -16,3 +16,6 @@
 
 # Configuration files
 .env
+
+# VS Code
+.vscode/

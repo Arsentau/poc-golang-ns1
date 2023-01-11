@@ -2,7 +2,7 @@
 package router
 
 import (
-	c "github.com/poc-golang-ns1/internal/pkg/ns1-sdk/controllers"
+	c "github.com/poc-golang-ns1/internal/pkg/official_api/controllers"
 	"github.com/poc-golang-ns1/pkg/api"
 	m "github.com/poc-golang-ns1/pkg/api/models"
 )

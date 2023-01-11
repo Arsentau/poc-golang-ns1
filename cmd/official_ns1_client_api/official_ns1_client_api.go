@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	c "github.com/poc-golang-ns1/internal/pkg/config"
-	"github.com/poc-golang-ns1/internal/pkg/ns1-sdk/router"
+	"github.com/poc-golang-ns1/internal/pkg/official_api/router"
 )
 
 func main() {

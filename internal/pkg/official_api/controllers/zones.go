@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/poc-golang-ns1/internal/pkg/ns1-sdk/sdk"
+	sdk "github.com/poc-golang-ns1/internal/pkg/ns1-sdk"
 	e "github.com/poc-golang-ns1/pkg/errors"
 )
 
