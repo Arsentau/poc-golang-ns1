@@ -5,13 +5,14 @@ import (
 	"log"
 	"net/http"
 
+	c "github.com/poc-golang-ns1/internal/pkg/config"
+
 	"github.com/poc-golang-ns1/internal/pkg/custom_api/router"
 )
 
 func main() {
-	port := ":8080"
-	host := "localhost"
 	r := router.GetRouter()
-	fmt.Println("Initializing server on " + host + port)
-	log.Fatal(http.ListenAndServe(port, r))
+	port := c.GetConfig().Port
+	fmt.Println("Initializing server on " + port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
