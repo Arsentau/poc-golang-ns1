@@ -1,4 +1,4 @@
-// package router is responsible of the creation of the endpoints
+// Package router is responsible of the creation of the endpoints
 package router
 
 import (
@@ -11,6 +11,7 @@ import (
 func getRoutes() []m.Route {
 	routes := []m.Route{
 		*m.NewRoute("/networks", "GET", c.GetAllNetworks),
+		*m.NewRoute("/zones", "GET", c.GetAllZones),
 	}
 	return routes
 }
