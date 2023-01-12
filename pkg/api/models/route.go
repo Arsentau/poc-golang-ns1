@@ -1,7 +1,9 @@
+// Package models contains the models used by the API handlers.
 package models
 
 import "net/http"
 
+// Route is a struct that contains all the information to set up a route.
 type Route struct {
 	path    string
 	method  string

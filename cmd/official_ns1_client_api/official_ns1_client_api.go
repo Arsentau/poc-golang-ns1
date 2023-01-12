@@ -1,3 +1,4 @@
+// Package main is the entry point of the Official NS1 Client API.
 package main
 
 import (

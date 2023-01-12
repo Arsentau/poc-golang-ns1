@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Struct to hold the config values
 type Config struct {
 	Port      string `mapstructure:"PORT"`
 	Ns1ApiKey string `mapstructure:"API_SECRET"`
