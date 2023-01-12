@@ -18,17 +18,20 @@ func ErrorHTTPResponse(w http.ResponseWriter, errorMessage string, code int) htt
 		Code:    code,
 		Message: errorMessage,
 	}
+
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(code)
+
 	if err := json.NewEncoder(w).Encode(message); err != nil {
 		w.WriteHeader(500)
 		defer handlePanic()
 		log.Panic(err.Error())
 		return w
 	}
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(code)
 	return w
 }
 
+// If a panic occurs, this func logs and recover the execution
 func handlePanic() {
 	if r := recover(); r != nil {
 		log.Println("Recovering from panic:", r)

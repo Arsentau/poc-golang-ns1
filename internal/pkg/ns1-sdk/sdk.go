@@ -20,7 +20,7 @@ func getHTTPClient() *api.Client {
 }
 
 // GetZones retrieves all zones or error
-func GetZones() ([]*dns.Zone, error) {
-	zones, _, err := getHTTPClient().Zones.List()
-	return zones, err
+func GetZones() ([]*dns.Zone, int, error) {
+	zones, response, err := getHTTPClient().Zones.List()
+	return zones, response.StatusCode, err
 }
