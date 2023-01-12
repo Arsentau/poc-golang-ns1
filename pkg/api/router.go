@@ -1,3 +1,4 @@
+// Package api provides generic methods to set up the API of the application.
 package api
 
 import (
@@ -5,10 +6,12 @@ import (
 	m "github.com/poc-golang-ns1/pkg/api/models"
 )
 
+// Router is a wrapper for the gorilla/mux router.
 type Router struct {
 	*mux.Router
 }
 
+// NewRouter returns a new router with the routes provided.
 func NewRouter(routes []m.Route) *Router {
 	router := &Router{mux.NewRouter().StrictSlash(true)}
 	for _, route := range routes {
