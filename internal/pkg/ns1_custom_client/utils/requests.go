@@ -3,8 +3,8 @@ package utils
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
-	"log"
 	"net/http"
 	"time"
 
@@ -13,47 +13,56 @@ import (
 
 var config = c.GetConfig()
 
-// newRequest returns a new http.Request with the NS1 API key set in the header.
-func newRequest(method string, endpoint string, body io.Reader) *http.Request {
-
-	apiUrl := config.Ns1Host + endpoint
-
-	req, err := http.NewRequest(method, apiUrl, body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Set API key in header
-	req.Header.Set("X-NSONE-Key", config.Ns1ApiKey)
-
-	return req
-}
-
 // SendGetRequest is a generic function to send a GET request to the NS1 API.
-func SendGetRequest(endpoint string, model interface{}) {
+func SendGetRequest(endpoint string, model interface{}) error {
 	// Create request
 	method := "GET"
-	req := newRequest(method, endpoint, nil)
+	req, err := newRequest(method, endpoint, nil)
+	if err != nil {
+		return err
+	}
 
 	//Set client timeout
 	http.DefaultClient.Timeout = time.Duration(config.Timeout) * time.Second
 
 	// Send request
-	res, getErr := http.DefaultClient.Do(req)
-	if getErr != nil {
-		log.Fatal(getErr)
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
 	}
 
 	// Read response body
-	body, readErr := io.ReadAll(res.Body)
-	if readErr != nil {
-		log.Fatal(readErr)
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return err
 	}
 	defer res.Body.Close()
 
-	// Parse response
-	parseErr := json.Unmarshal(body, &model)
-	if parseErr != nil {
-		log.Fatal(parseErr)
+	// Handle 401, 403, 404, 500, etc.
+	if res.StatusCode != http.StatusOK {
+		return errors.New(string(body))
 	}
+
+	// Parse response
+	if err := json.Unmarshal(body, &model); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// newRequest returns a new http.Request with the NS1 API key set in the header.
+func newRequest(method string, endpoint string, body io.Reader) (*http.Request, error) {
+
+	apiUrl := config.Ns1Host + endpoint
+
+	req, err := http.NewRequest(method, apiUrl, body)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set API key in header
+	req.Header.Set("X-NSONE-Key", config.Ns1ApiKey)
+
+	return req, nil
 }

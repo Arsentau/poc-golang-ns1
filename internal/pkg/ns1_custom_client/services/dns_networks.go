@@ -9,9 +9,11 @@ import (
 type NetworksService struct{}
 
 // List returns the list of all networks from NS1.
-func (n NetworksService) List() m.Networks {
+func (n NetworksService) List() (m.Networks, error) {
 	endpoint := "networks"
 	var networks m.Networks
-	u.SendGetRequest(endpoint, &networks)
-	return networks
+	if err := u.SendGetRequest(endpoint, &networks); err != nil {
+		return nil, err
+	}
+	return networks, nil
 }
