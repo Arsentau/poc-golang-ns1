@@ -9,9 +9,11 @@ import (
 type ZonesService struct{}
 
 // List returns the list of all zones from NS1.
-func (z ZonesService) List() m.Zones {
+func (z ZonesService) List() (m.Zones, error) {
 	endpoint := "zones"
 	var zones m.Zones
-	u.SendGetRequest(endpoint, &zones)
-	return zones
+	if err := u.SendGetRequest(endpoint, &zones); err != nil {
+		return nil, err
+	}
+	return zones, nil
 }
