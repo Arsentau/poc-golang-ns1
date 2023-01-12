@@ -14,15 +14,23 @@ type ErrorHttpResponse struct {
 
 // Custom http Response with the structure of ErrorHttpResponse and status code.
 func ErrorHTTPResponse(w http.ResponseWriter, errorMessage string, code int) http.ResponseWriter {
-	w.Header().Add("Content-Type", "application/json")
-	w.WriteHeader(code)
 	message := ErrorHttpResponse{
 		Code:    code,
 		Message: errorMessage,
 	}
-	e := json.NewEncoder(w).Encode(message)
-	if e != nil {
-		log.Panic("Error while encoding response")
+	if err := json.NewEncoder(w).Encode(message); err != nil {
+		w.WriteHeader(500)
+		defer handlePanic()
+		log.Panic(err.Error())
+		return w
 	}
+	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(code)
 	return w
+}
+
+func handlePanic() {
+	if r := recover(); r != nil {
+		log.Println("Recovering from panic:", r)
+	}
 }

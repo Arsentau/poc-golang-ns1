@@ -3,7 +3,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"log"
+	"errors"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,18 +16,20 @@ import (
 func GetAllZonesHandler(w http.ResponseWriter, r *http.Request) {
 	zones, err := sdk.GetZones()
 
+	err = errors.New("aaaa aaaa 400 aaa")
 	if err != nil {
 		message := strings.Fields(err.Error())
 		code, err := strconv.Atoi(message[2])
 		if err != nil {
 			code = 500
 		}
-		e.ErrorHTTPResponse(w, message[1], code)
+
+		e.ErrorHTTPResponse(w, message[3], code)
 		return
 	}
 	w.Header().Set("Content-type", "application/json")
-	e := json.NewEncoder(w).Encode(&zones)
-	if e != nil {
-		log.Panic("Error while encoding response")
+	err = json.NewEncoder(w).Encode(zones)
+	if err != nil {
+		e.ErrorHTTPResponse(w, err.Error(), 500)
 	}
 }
